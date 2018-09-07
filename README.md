@@ -1,1 +1,1 @@
-# Java-test
+# Java snippets
