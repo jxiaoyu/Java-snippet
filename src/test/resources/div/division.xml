@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="sync" class="com.taobao.sync.DataSync" init-method="init">
+        <!-- local cache location 本地缓存文件路径-->
+        <property name="localCachePath" value="/Users/river/projects/javatest/division/cache"/>
+
+        <property name="chinaDivisionManager" ref="chinaDivisionManager"/>
+        <property name="globalDivisionManager" ref="globalDivisionManager"/>
+    </bean>
+
+    <bean id="chinaDivisionManager" class="com.taobao.biz.common.division.impl.DefaultChinaDivisionManager" depends-on="sync">
+    </bean>
+    <bean id="globalDivisionManager" class="com.taobao.biz.common.division.impl.DefaultGlobalDivisionManager"
+          depends-on="sync">
+        <property name="preloadCountries">
+            <list>
+                <!--预加载到内存的国家ISO名称，ALL表示将所有国家加载到内存 -->
+                <value>RU</value>
+                <!--<value>US</value>-->
+            </list>
+        </property>
+        <!--如果希望GlobalDivisionManager可以处理中国的数据，必须设置这个属性 -->
+        <property name="chinaDivisionManager" ref="chinaDivisionManager"/>
+    </bean>
+
+
+    <bean id="divisionManager" class="com.alibaba.division.DivisionManager"/>
+</beans>
