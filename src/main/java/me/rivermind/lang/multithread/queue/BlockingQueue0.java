@@ -1,66 +1,52 @@
-package me.rivermind.multithread.queue;
+package me.rivermind.lang.multithread.queue;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author jxiao
  * @date 2016/10/13
  * <p>
- * 用 ReentrantLock 以及 Condition 实现的简单阻塞队列
+ * 用 synchronized 实现的简单阻塞队列
  */
-public class BlockingQueue<T> {
+
+public class BlockingQueue0<T> {
 
     private List<T> queue = new LinkedList<T>();
 
     private int capacity;
 
-    private Lock lock = new ReentrantLock();
-
-    private Condition empty = lock.newCondition();
-
-    private Condition full = lock.newCondition();
-
-    public BlockingQueue(int capacity) {
+    public BlockingQueue0(int capacity) {
         this.capacity = capacity;
     }
 
     public void put(T t) {
-        lock.lock();
-        try {
+        synchronized (this) {
             while (getSize() >= capacity) {
                 try {
-                    full.await();
+                    this.wait();
                 } catch (InterruptedException e) {
                 }
             }
             if (getSize() == 0) {
-                empty.signalAll();
+                this.notifyAll();
             }
             queue.add(t);
-        } finally {
-            lock.unlock();
         }
     }
 
     public T take() {
-        lock.lock();
-        try {
+        synchronized (this) {
             while (getSize() == 0) {
                 try {
-                    empty.wait();
+                    this.wait();
                 } catch (InterruptedException e) {
                 }
             }
             if (getSize() == capacity) {
-                full.signalAll();
+                this.notifyAll();
             }
             return queue.remove(0);
-        } finally {
-            lock.unlock();
         }
     }
 
@@ -73,7 +59,7 @@ public class BlockingQueue<T> {
     }
 
     public static void main(String[] args) {
-        BlockingQueue<Integer> pq = new BlockingQueue<>(1);
+        BlockingQueue0<Integer> pq = new BlockingQueue0<>(1);
 
         Thread t1 = new Thread(() -> {
             pq.put(1);

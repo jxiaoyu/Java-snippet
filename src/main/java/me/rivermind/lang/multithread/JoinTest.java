@@ -1,4 +1,4 @@
-package me.rivermind.multithread;
+package me.rivermind.lang.multithread;
 
 /**
  * @author river

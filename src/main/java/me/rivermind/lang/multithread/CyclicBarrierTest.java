@@ -1,4 +1,4 @@
-package me.rivermind.multithread;
+package me.rivermind.lang.multithread;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

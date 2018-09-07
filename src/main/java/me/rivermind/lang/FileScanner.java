@@ -1,4 +1,4 @@
-package me.rivermind.lang.interrupt;
+package me.rivermind.lang;
 
 import java.io.BufferedReader;
 import java.io.File;
