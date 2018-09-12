@@ -1,4 +1,4 @@
-package me.rivermind.lang.multithread;
+package me.rivermind.thread;
 
 import java.util.concurrent.Semaphore;
 

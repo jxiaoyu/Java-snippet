@@ -1,4 +1,4 @@
-package me.rivermind.lang.multithread.queue;
+package me.rivermind.thread.queue;
 
 import java.util.LinkedList;
 import java.util.List;

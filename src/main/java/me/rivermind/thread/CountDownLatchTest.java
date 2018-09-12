@@ -1,26 +1,25 @@
-package me.rivermind.lang.multithread;
+package me.rivermind.thread;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author river
  * @date 2016/10/24
  * <p>
- * t1.join() 可以理解成 t1 加入到当前线程中，我要等它执行完
+ * CountDownLatch 最重要的两个方法是 await() 和 countDown()
+ * 这个类的作用跟 Thread.join() 方法很像，可以跟 JoinTest.java 对比下
  */
-public class JoinTest {
+public class CountDownLatchTest {
     public static void main(String[] args) {
+        final CountDownLatch latch = new CountDownLatch(2);
 
-        Thread t1 = new SubThread(1000);
-        Thread t2 = new SubThread(2000);
+        new SubThread(latch).start();
+        new SubThread(latch).start();
 
         try {
             System.out.println("等待2个子线程执行完毕...");
-            System.out.println(System.currentTimeMillis());
-            t1.start();
-            t2.start();
-            t1.join();
-            t2.join();
+            latch.await();
             System.out.println("2个子线程已经执行完毕");
-            System.out.println(System.currentTimeMillis());
             System.out.println("继续执行主线程");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -29,23 +28,22 @@ public class JoinTest {
 
     private static class SubThread extends Thread {
 
-        private int time;
+        private CountDownLatch latch;
 
-        SubThread(int time) {
-            this.time = time;
+        SubThread(CountDownLatch latch) {
+            this.latch = latch;
         }
 
         @Override
         public void run() {
             try {
                 System.out.println("子线程" + Thread.currentThread().getName() + "正在执行");
-                Thread.sleep(time);
+                Thread.sleep(3000);
                 System.out.println("子线程" + Thread.currentThread().getName() + "执行完毕");
+                latch.countDown();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-        ;
     }
 }
