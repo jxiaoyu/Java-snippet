@@ -1,4 +1,4 @@
-package me.rivermind.proxy.fixed.impl;
+package me.rivermind.proxy.naive.impl;
 
 import me.rivermind.proxy.cglib.BookFacade;
 

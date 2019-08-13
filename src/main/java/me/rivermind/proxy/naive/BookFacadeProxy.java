@@ -1,4 +1,4 @@
-package me.rivermind.proxy.fixed;
+package me.rivermind.proxy.naive;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

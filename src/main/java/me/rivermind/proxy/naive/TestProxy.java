@@ -1,6 +1,6 @@
-package me.rivermind.proxy.fixed;
+package me.rivermind.proxy.naive;
 
-import me.rivermind.proxy.fixed.impl.BookFacadeImpl;
+import me.rivermind.proxy.naive.impl.BookFacadeImpl;
 
 /**
  * @author river

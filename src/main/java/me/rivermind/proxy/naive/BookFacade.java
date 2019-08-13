@@ -1,4 +1,4 @@
-package me.rivermind.proxy.fixed;
+package me.rivermind.proxy.naive;
 
 /**
  * @author river
